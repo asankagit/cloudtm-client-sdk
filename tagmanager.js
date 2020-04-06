@@ -6,7 +6,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 AWS.config.region = 'us-east-2';
 // We're going to partition Amazon Kinesis records based on an identity.
 // We need to get credentials first, then attach our event listeners.
-AWS.config.credentials.get(function(err) {
+AWS.config.credentials.get(function (err) {
     // attach event listener
     if (err) {
         alert('Error retrieving credentials.');
@@ -26,10 +26,10 @@ AWS.config.credentials.get(function(err) {
 
     var recordData = [];
     var TID = null;
-    blogContent.addEventListener('scroll', function(event) {
+    blogContent.addEventListener('scroll', function (event) {
         clearTimeout(TID);
         // Prevent creating a record while a user is actively scrolling
-        TID = setTimeout(function() {
+        TID = setTimeout(function () {
             // calculate percentage
             var scrollableElement = event.target;
             var scrollHeight = scrollableElement.scrollHeight;
@@ -53,7 +53,7 @@ AWS.config.credentials.get(function(err) {
     });
 
     // upload data to Amazon Kinesis every second if data exists
-    setInterval(function() {
+    setInterval(function () {
         if (!recordData.length) {
             return;
         }
@@ -61,7 +61,7 @@ AWS.config.credentials.get(function(err) {
         kinesis.putRecords({
             Records: recordData,
             StreamName: 'MyKinesisStream'
-        }, function(err, data) {
+        }, function (err, data) {
             if (err) {
                 console.error(err);
             }
@@ -71,63 +71,42 @@ AWS.config.credentials.get(function(err) {
     }, 1000);
 });
 
-async function fetchBasketItes(){
+async function fetchBasketItes() {
     let result = ""
     var promise = await fetch("https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod/clickstream?basketId=zxczxc")
-    .then(res => res.body)
-        .then(body =>{
+        .then(res => res.body)
+        .then(body => {
             const reader = body.getReader()
-            return reader.read().then(  ({done, value}) => {
+            return reader.read().then(({ done, value }) => {
                 var str = String.fromCharCode.apply(null, value);
                 result = str
                 return str
-            })   
+            })
         })
         .catch(e => console.log(e))
-    .catch(e => console.log(e))
-    console.log( result)
-  
+        .catch(e => console.log(e))
+    console.log(result)
+
 };
 
 // Example POST method implementation:
 async function postData(url = '', data = {}) {
-    // // Default options are marked with *
-    // const response = await fetch(url, {
-    //   method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    // //   mode: 'cors', // no-cors, *cors, same-origin
-    // //   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    // //   credentials: 'same-origin', // include, *same-origin, omit
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //     // 'Content-Type': 'application/x-www-form-urlencoded',
-    //   },
-    // //   redirect: 'follow', // manual, *follow, error
-    // //   referrerPolicy: 'no-referrer', // no-referrer, *client
-    //   body: JSON.stringify(data) // body data type must match "Content-Type" header
-    // });
-    // return await response // .json(); // parses JSON response into native JavaScript objects
+    
     let result = ""
-    var promise = await fetch("https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod/clickstream", {
+    var response = fetch("https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod/clickstream", {
         headers: {
-            'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            
+            'content-length': 1784,
+            'content-type': 'application/json',
+            'status': 200
         },
         method: 'POST',
         body: JSON.stringify(data)
     })
-    .then(res => res.body)
-        .then(body =>{
-            const reader = body.getReader()
-            return reader.read().then(  ({done, value}) => {
-                var str = String.fromCharCode.apply(null, value);
-                result = str
-                return str
-            })   
-        })
-        .catch(e => console.log(e))
-    .catch(e => console.log(e))
-    console.log( result)
-  
-  }
+    return await response
 
-  
+}
+
+
