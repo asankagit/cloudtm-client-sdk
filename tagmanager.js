@@ -93,20 +93,26 @@ async function fetchBasketItes() {
 async function postData(url = '', data = {}) {
     
     let result = ""
-    var response = fetch("https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod/clickstream", {
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            
-            'content-length': 1784,
-            'content-type': 'application/json',
-            'status': 200
-        },
+    result = await fetch("https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod/clickstream", {       
         method: 'POST',
-        body: JSON.stringify(data)
+        body: JSON.stringify({
+            type: 'add',
+            timeStamp: 2345673,
+            basketId: 'zxczxv',
+            basket_item: 'Family room',
+            item_count: 2
+          })
     })
-    return await response
-
+    .then(res => res.body).then(body =>{
+        const reader = body.getReader(); 
+        return reader.read().then(  ({done, value}) => {
+            console.log(">>",done,value)
+            result = String.fromCharCode.apply(null, value)
+            return result
+        }
+        )   })
+    .catch(e => console.log(e))
+    console.log(result)
 }
 
 
