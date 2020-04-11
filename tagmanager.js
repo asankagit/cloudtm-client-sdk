@@ -1,4 +1,4 @@
-import AWS from "aws-sdk"
+// import AWS from "aws-sdk"
 // Configure Credentials to use Cognito
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: 'us-east-2:d3cec5af-7888-4dd0-8ba0-bb05bf2181b8'
@@ -91,18 +91,12 @@ async function fetchBasketItes() {
 };
 
 // Example POST method implementation:
-async function postData(url = '', data = {}) {
+async function postData(data = {}) {
     
     let result = ""
     result = await fetch("https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod/clickstream", {       
         method: 'POST',
-        body: JSON.stringify({
-            type: 'add',
-            timeStamp: 2345673,
-            basketId: 'zxczxv',
-            basket_item: 'Family room',
-            item_count: 2
-          })
+        body: JSON.stringify(data)
     })
     .then(res => res.body).then(body =>{
         const reader = body.getReader(); 
@@ -120,5 +114,21 @@ function packtest () {
 
     console.log("pack working")
 }
+const help = "UTM(Universal Tag Manger) is free and opensource software \n "
+    +"writeClickStrem to add click event data \n viewClickStrem to view event data";
+
+const UTM = {
+    set current(name) {
+      this.log.push(name);
+    },
+    log: [],
+    isLoading: true,
+    writeClickStrem: postData,
+    viewClickStrem: fetchBasketItes,
+    help
+
+}
+
 window.addEventListener("click", packtest)
-window.UTM = postData
+window._postdata = postData
+window._utm = UTM
