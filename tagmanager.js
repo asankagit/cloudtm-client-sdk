@@ -1,3 +1,4 @@
+import AWS from "aws-sdk"
 // Configure Credentials to use Cognito
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: 'us-east-2:d3cec5af-7888-4dd0-8ba0-bb05bf2181b8'
@@ -115,4 +116,9 @@ async function postData(url = '', data = {}) {
     console.log(result)
 }
 
+function packtest () {
 
+    console.log("pack working")
+}
+window.addEventListener("click", packtest)
+window.UTM = postData

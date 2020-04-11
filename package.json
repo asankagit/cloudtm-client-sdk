@@ -1,0 +1,33 @@
+{
+  "name": "cloudtm-client-sdk",
+  "version": "1.0.0",
+  "description": "tag manage client sdk",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.51",
+    "@babel/preset-env": "^7.9.5",
+    "babel-loader": "^8.0.0-beta.4",
+    "babel-register": "^6.26.0",
+    "jsxobj": "^1.1.0",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.283.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asankagit/cloudtm-client-sdk.git"
+  },
+  "author": "Asanka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asankagit/cloudtm-client-sdk/issues"
+  },
+  "homepage": "https://github.com/asankagit/cloudtm-client-sdk#readme"
+}
