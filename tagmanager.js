@@ -1,4 +1,7 @@
 // import AWS from "aws-sdk"
+
+BASE_URL = "https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod"
+
 // Configure Credentials to use Cognito
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: 'us-east-2:d3cec5af-7888-4dd0-8ba0-bb05bf2181b8'
@@ -74,7 +77,7 @@ AWS.config.credentials.get(function (err) {
 
 async function fetchBasketItes() {
     let result = ""
-    var promise = await fetch("https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod/clickstream?basketId=zxczxc")
+    var promise = await fetch(`${BASE_URL}/clickstream?basketId=zxczxc`)
         .then(res => res.body)
         .then(body => {
             const reader = body.getReader()
@@ -92,43 +95,78 @@ async function fetchBasketItes() {
 
 // Example POST method implementation:
 async function postData(data = {}) {
-    
+
+    /*sample data Object 
+{
+    type: 'add',
+    timeStamp: 2345673,
+    basketId: 'zxczxv',
+    basket_item: 'Family room',
+    item_count: 2
+  }
+  */
+
     let result = ""
-    result = await fetch("https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod/clickstream", {       
+    result = await fetch(`${BASE_URL}/clickstream`, {
         method: 'POST',
         body: JSON.stringify(data)
     })
-    .then(res => res.body).then(body =>{
-        const reader = body.getReader(); 
-        return reader.read().then(  ({done, value}) => {
-            console.log(">>",done,value)
-            result = String.fromCharCode.apply(null, value)
-            return result
-        }
-        )   })
-    .catch(e => console.log(e))
+        .then(res => res.body).then(body => {
+            const reader = body.getReader();
+            return reader.read().then(({ done, value }) => {
+                result = String.fromCharCode.apply(null, value)
+                return result
+            }
+            )
+        })
+        .catch(e => console.log(e))
     console.log(result)
 }
 
-function packtest () {
-
-    console.log("pack working")
+function clickEventListener() {
+    console.log("UTM click detected")
 }
+
 const help = "UTM(Universal Tag Manger) is free and opensource software \n "
-    +"writeClickStrem to add click event data \n viewClickStrem to view event data";
+    + "writeClickStrem to add click event data \n viewClickStrem to view event data";
+
+function visitorCountEvent() {
+    console.log(this.key || this._utm.key)
+    fetch(`${BASE_URL}/visitors`, {
+        method: "POST",
+        body: JSON.stringify({
+            siteId: this._utm.key
+        })
+    })
+        .then(res => res.body).then(body => {
+            const reader = body.getReader();
+            return reader.read().then(({ done, value }) => {
+                return String.fromCharCode.apply(null, value)
+
+            }
+            )
+        })
+        .catch(e => console.log(e))
+}
 
 const UTM = {
-    set current(name) {
-      this.log.push(name);
-    },
     log: [],
     isLoading: true,
     writeClickStrem: postData,
     viewClickStrem: fetchBasketItes,
-    help
+    help,
+    visitorCount: visitorCountEvent,
+    client: window.location.href,
 
+    set utmKey(key) {
+        this.key = key
+    },
+    set current(name) {
+        this.log.push(name);
+    },
 }
 
-window.addEventListener("click", packtest)
-window._postdata = postData
+
+window.addEventListener("click", clickEventListener)
+window.addEventListener("load", UTM.visitorCount)
 window._utm = UTM
