@@ -1,11 +1,29 @@
-// import AWS from "aws-sdk"
+import AWS from "aws-sdk" 
 
-BASE_URL = "https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod"
 
+//add aws sdk
+/*
+(function injectAwsSdk(){
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; 
+    // g.async=true; g.defer=true; 
+    g.src='https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js'; 
+    g.setAttribute('src','https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js');
+    // s.parentNode.insertBefore(g,s);
+    document.head.appendChild(g);
+    console.log("injection called",AWS)
+
+})()
+*/
+
+
+const BASE_URL = "https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod"
+try{
 // Configure Credentials to use Cognito
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: 'us-east-2:d3cec5af-7888-4dd0-8ba0-bb05bf2181b8'
 });
+
 
 AWS.config.region = 'us-east-2';
 // We're going to partition Amazon Kinesis records based on an identity.
@@ -74,7 +92,10 @@ AWS.config.credentials.get(function (err) {
         recordData = [];
     }, 1000);
 });
-
+}
+catch(e){
+    console.log(e)
+}
 async function fetchBasketItes() {
     let result = ""
     var promise = await fetch(`${BASE_URL}/clickstream?basketId=zxczxc`)
@@ -94,7 +115,7 @@ async function fetchBasketItes() {
 };
 
 // Example POST method implementation:
-async function postData(data = {}) {
+async function postData(basket = {}) {
 
     /*sample data Object 
 {
@@ -105,6 +126,7 @@ async function postData(data = {}) {
     item_count: 2
   }
   */
+    const data = {...basket, basketId: `${this.key}#${basket.basketId}`}
 
     let result = ""
     result = await fetch(`${BASE_URL}/clickstream`, {
