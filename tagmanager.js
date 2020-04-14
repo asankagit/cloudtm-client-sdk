@@ -133,10 +133,13 @@ async function postData(basket = {}) {
     item_count: 2
   }
   */
+
     const data = {
         ...basket, 
         basketId: `${this.key}#${basket.basketId}`,
-        timeStamp: new Date().getTime()
+        timeStamp: new Date().getTime(),
+        visitor: this.visitorCookie,
+        siteId: this.key
     }
 
     let result = ""
@@ -182,7 +185,7 @@ function visitorCountEvent() {
         .catch(e => console.log(e))
 }
 var COOKIE_NAME = "loogeduser"
-function setCookie(name,value,days) {
+function setCookie(name, value,days) {
     var expires = "";
     if (days) {
         var date = new Date();
@@ -209,6 +212,27 @@ function eraseCookie(name) {
     localStorage.removeItem(name) 
 }
 
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+let usercookie = ""
+ try{
+    if(localStorage.getItem(COOKIE_NAME) === null) {
+        setCookie(COOKIE_NAME, makeid(10),1)
+    }else {
+        usercookie = getCookie(COOKIE_NAME)
+    }
+}
+catch(e)
+{
+    console.log(e)
+}
 const UTM = {
     log: [],
     isLoading: true,
@@ -217,6 +241,7 @@ const UTM = {
     help,
     visitorCount: visitorCountEvent,
     client: window.location.href,
+    visitorCookie: usercookie,
     set utmKey(key) {
         this.key = key
     },
