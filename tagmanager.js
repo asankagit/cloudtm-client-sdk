@@ -1,5 +1,8 @@
 import AWS from "aws-sdk" 
 
+if (typeof  window === "undefined") {
+    const window = {}
+}
 
 //add aws sdk
 /*
@@ -21,18 +24,18 @@ const BASE_URL = "https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod"
 try{
 // Configure Credentials to use Cognito
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'us-east-2:d3cec5af-7888-4dd0-8ba0-bb05bf2181b8'
+    IdentityPoolId: 'ap-south-1:4a4523dc-c83d-4fed-8a94-ce7192edd6fa' 
 });
 
 
-AWS.config.region = 'us-east-2';
+AWS.config.region = 'ap-south-1';
 // We're going to partition Amazon Kinesis records based on an identity.
 // We need to get credentials first, then attach our event listeners.
 AWS.config.credentials.get(function (err) {
     // attach event listener
     if (err) {
-        alert('Error retrieving credentials.');
-        console.error(err);
+        console.log('Error retrieving credentials.');
+        console.log(err);
         return;
     }
     // create Amazon Kinesis service object
@@ -41,7 +44,7 @@ AWS.config.credentials.get(function (err) {
     });
 
     // Get the ID of the Web page element.
-    var blogContent = document.getElementById('BlogContent');
+    var blogContent = document.getElementsByTagName("body")[0].children[0];
 
     // Get Scrollable height
     var scrollableHeight = blogContent.clientHeight;
@@ -63,6 +66,7 @@ AWS.config.credentials.get(function (err) {
             // Create the Amazon Kinesis record
             var record = {
                 Data: JSON.stringify({
+                    siteId: this._utm.key || "7e35ba54-cea2-42ad-af83-c748c6ec10e8",
                     blog: window.location.href,
                     scrollTopPercentage: scrollTopPercentage,
                     scrollBottomPercentage: scrollBottomPercentage,
@@ -126,7 +130,11 @@ async function postData(basket = {}) {
     item_count: 2
   }
   */
-    const data = {...basket, basketId: `${this.key}#${basket.basketId}`}
+    const data = {
+        ...basket, 
+        basketId: `${this.key}#${basket.basketId}`,
+        timeStamp: new Date().getTime()
+    }
 
     let result = ""
     result = await fetch(`${BASE_URL}/clickstream`, {
@@ -170,6 +178,33 @@ function visitorCountEvent() {
         })
         .catch(e => console.log(e))
 }
+var COOKIE_NAME = "loogeduser"
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    var cookie = name + "=" + (value || "")  + expires + "; path=/";
+    localStorage.setItem(name, cookie);
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    // var ca = document.cookie.split(';');
+    var ca =  localStorage.getItem(name).split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+function eraseCookie(name) {   
+    document.cookie = name+'=; Max-Age=-99999999;'; 
+    localStorage.removeItem(name) 
+}
 
 const UTM = {
     log: [],
@@ -179,16 +214,19 @@ const UTM = {
     help,
     visitorCount: visitorCountEvent,
     client: window.location.href,
-
     set utmKey(key) {
         this.key = key
     },
     set current(name) {
         this.log.push(name);
     },
+
 }
 
 
 window.addEventListener("click", clickEventListener)
 window.addEventListener("load", UTM.visitorCount)
 window._utm = UTM
+module.exports = (str) => {
+    return UTM
+}

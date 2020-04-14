@@ -1,0 +1,13 @@
+body {
+
+
+}
+
+.basketwrapper{
+    display: flex;
+    flex-direction: cloumn;
+
+}
+.buttonwrapper {
+    display: flex;
+}

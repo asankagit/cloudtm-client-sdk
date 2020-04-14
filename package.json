@@ -2,6 +2,7 @@
   "name": "cloudtm-client-sdk",
   "version": "1.0.0",
   "description": "tag manage client sdk",
+  "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --watch"

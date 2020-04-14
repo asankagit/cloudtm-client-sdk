@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Flat Cart [codepen comp]</title>
+  <meta name="viewport" content="width=device-width"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="./style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+<script src="../dist/main.js"></script>
+
+<!-- UTM -->
+<script type="text/javascript">
+  try {
+      var _utm = window._utm || [];
+      (function () {
+          _utm.utmKey = "7e35ba54-cea2-42ad-af83-c748c6ec10e8"
+      })();
+  }
+  catch (e) {
+      console.log(e)
+  }
+
+</script>
+<!-- UTM -->
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container" style="height: 800px; overflow: auto;margin: auto; text-align: center;">
+  <div class="heading">
+    <h1>
+      <span class="shopper">s</span> Shopping Cart
+    </h1>
+    
+    <a href="#" class="visibility-cart transition is-open">X</a>    
+  </div>
+  
+  <div class="cart transition is-open">
+    
+    <a href="#" class="btn btn-update">Update cart</a>
+    
+    
+    <div class="table">
+      
+      <div class="layout-inline row th">
+        <div class="col col-pro">Product</div>
+        <div class="col col-price align-center "> 
+          Price
+        </div>
+        <div class="col col-qty align-center">QTY</div>
+        <div class="col">VAT</div>
+        <div class="col">Total</div>
+      </div>
+      
+      <div class="layout-inline row">
+        
+        <div class="col col-pro layout-inline">
+          <img src="http://static.ddmcdn.com/gif/10-kitten-cuteness-1.jpg" alt="kitten" />
+          <p>Happy Little Critter</p>
+        </div>
+        
+        <div class="col col-price col-numeric align-center ">
+          <p>£59.99</p>
+        </div>
+
+        <div class="col col-qty layout-inline">
+          <a href="#" class="qty qty-minus">-</a>
+            <input type="numeric" value="3" item="Happy Little Critter"/>
+          <a href="#" class="qty qty-plus">+</a>
+        </div>
+        
+        <div class="col col-vat col-numeric">
+          <p>£2.95</p>
+        </div>
+        <div class="col col-total col-numeric">               <p> £182.95</p>
+        </div>
+      </div>
+      
+      <div class="layout-inline row row-bg2">
+
+        <div class="col col-pro layout-inline">
+          <img src="http://lovemeow.com/wp-content/uploads/2012/05/kitten81.jpg" alt="kitten" />
+          <p>Scared Little Kittie</p>
+        </div>
+        
+        <div class="col col-price col-numeric align-center ">
+          <p>£23.99</p>
+        </div>
+
+        <div class="col col-qty  layout-inline">
+          <a href="#" class="qty qty-minus ">-</a>
+            <input type="numeric" value="1" item="scared Little Critter"/>
+          <a href="#" class="qty qty-plus">+</a>
+        </div>
+        
+        <div class="col col-vat col-numeric">
+          <p>£1.95</p>
+        </div>
+        <div class="col col-total col-numeric">
+          <p>£25.94</p>
+        </div>      
+      
+      </div>
+      
+       <div class="layout-inline row">
+        
+        <div class="col col-pro layout-inline">
+          <img src="http://cdn.cutestpaw.com/wp-content/uploads/2012/04/l-my-first-kitten.jpg" alt="kitten" />
+          <p>Curious Little Begger</p>
+        </div>
+        
+        <div class="col col-price col-numeric align-center ">
+          <p>£59.99</p>
+        </div>
+
+        <div class="col col-qty layout-inline">
+          <a href="#" class="qty qty-minus">-</a>
+            <input type="numeric" value="3" item="sad Little Critter"/>
+          <a href="#" class="qty qty-plus">+</a>
+        </div>
+        
+        <div class="col col-vat col-numeric">
+          <p>£2.95</p>          
+        </div>
+         <div class="col col-total col-numeric">  
+           <p>£182.95</p>
+         </div>         
+      </div>
+  
+       <div class="tf">
+         <div class="row layout-inline">
+           <div class="col">
+             <p>VAT</p>
+           </div>
+           <div class="col"></div>
+         </div>
+         <div class="row layout-inline">
+           <div class="col">
+             <p>Shipping</p>
+           </div>
+           <div class="col"></div>
+         </div>
+          <div class="row layout-inline">
+           <div class="col">
+             <p>Total</p>
+           </div>
+           <div class="col"></div>
+         </div>
+       </div>         
+  </div>
+    
+    <a href="#" class="btn btn-update">Update cart</a>
+  
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
