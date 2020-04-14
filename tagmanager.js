@@ -21,10 +21,13 @@ if (typeof  window === "undefined") {
 
 
 const BASE_URL = "https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod"
+const clientSiteId = "edc57659-b183-44c8-942b-00dd649ef7c2";
+
 try{
 // Configure Credentials to use Cognito
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'ap-south-1:4a4523dc-c83d-4fed-8a94-ce7192edd6fa' 
+    // IdentityPoolId: 'ap-south-1:4a4523dc-c83d-4fed-8a94-ce7192edd6fa' 
+    IdentityPoolId: 'ap-south-1:89518cbd-23c3-487a-9f0b-fc8a9ab47583'
 });
 
 
@@ -66,7 +69,7 @@ AWS.config.credentials.get(function (err) {
             // Create the Amazon Kinesis record
             var record = {
                 Data: JSON.stringify({
-                    siteId: this._utm.key || "7e35ba54-cea2-42ad-af83-c748c6ec10e8",
+                    siteId: this._utm.key || clientSiteId,
                     blog: window.location.href,
                     scrollTopPercentage: scrollTopPercentage,
                     scrollBottomPercentage: scrollBottomPercentage,
@@ -86,7 +89,7 @@ AWS.config.credentials.get(function (err) {
         // upload data to Amazon Kinesis
         kinesis.putRecords({
             Records: recordData,
-            StreamName: 'MyKinesisStream'
+            StreamName: 'ctm-demo-CtmStream-1GIMVEN40M3ZZ'
         }, function (err, data) {
             if (err) {
                 console.error(err);
