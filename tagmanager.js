@@ -20,7 +20,7 @@ if (typeof  window === "undefined") {
 */
 
 
-const BASE_URL = "https://jzjlb1p0tc.execute-api.ap-south-1.amazonaws.com/Prod"
+const BASE_URL = " https://um1fe6xs1m.execute-api.ap-south-1.amazonaws.com/Prod"
 const clientSiteId = "edc57659-b183-44c8-942b-00dd649ef7c2";
 
 try{
@@ -136,7 +136,7 @@ async function postData(basket = {}) {
 
     const data = {
         ...basket, 
-        basketId: `${this.key}#${basket.basketId}`,
+        basketId: basket.basketId,
         timeStamp: new Date().getTime(),
         visitor: this.visitorCookie,
         siteId: this.key
